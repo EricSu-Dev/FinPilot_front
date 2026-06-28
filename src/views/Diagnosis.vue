@@ -894,4 +894,91 @@ ${report.disclaimer || '本报告由 AI 自动生成，不构成投资建议。'
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 768px) {
+  .diagnosis-container {
+    padding-bottom: 16px;
+  }
+
+  .search-form :deep(.el-form-item) {
+    margin-right: 0;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .search-form :deep(.el-form-item__content) {
+    width: 100%;
+  }
+
+  .search-form :deep(.el-input) {
+    width: 100% !important;
+  }
+
+  .steps-wrapper {
+    padding: 16px 8px;
+  }
+
+  .steps-wrapper :deep(.el-step__title) {
+    font-size: 12px;
+  }
+
+  .steps-wrapper :deep(.el-step__description) {
+    font-size: 11px;
+  }
+
+  .report-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .report-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .core-diagnosis-block {
+    padding: 14px;
+  }
+
+  .core-diagnosis-block .section-title {
+    font-size: 16px;
+  }
+
+  .core-text {
+    font-size: 14px;
+  }
+
+  .full-section {
+    padding: 12px;
+    margin-bottom: 14px;
+  }
+
+  .section-text {
+    font-size: 13px;
+  }
+
+  .risk-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .disclaimer-footer {
+    position: static;
+    margin-top: 20px;
+    padding: 10px 12px;
+    box-shadow: none;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .disclaimer-content {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
 </style>

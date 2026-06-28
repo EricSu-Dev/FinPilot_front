@@ -201,7 +201,8 @@ const handleRegister = async () => {
 }
 
 .login-card {
-  width: 380px;
+  width: 100%;
+  max-width: 380px;
   background: #fff;
   border-radius: 12px;
   padding: 36px 32px 28px;
@@ -233,5 +234,16 @@ const handleRegister = async () => {
 .forgot-link {
   margin-top: 8px;
   text-align: right;
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 24px 20px 20px;
+    margin: 0 12px;
+  }
+
+  .login-header h2 {
+    font-size: 20px;
+  }
 }
 </style>

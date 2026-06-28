@@ -2,20 +2,20 @@
   <div class="portfolio-container">
     <!-- Summary Header Cards -->
     <div class="summary-row">
-      <el-row :gutter="20">
-        <el-col :span="6">
+      <el-row :gutter="16">
+        <el-col :xs="12" :sm="12" :md="6">
           <el-card shadow="hover" class="summary-card">
             <div class="summary-label">总资产 (当前市值)</div>
             <div class="summary-value">¥ {{ formatDecimal(summaryData.totalMarketValue) }}</div>
           </el-card>
         </el-col>
-        <el-col :span="6">
+        <el-col :xs="12" :sm="12" :md="6">
           <el-card shadow="hover" class="summary-card">
             <div class="summary-label">持仓成本</div>
             <div class="summary-value">¥ {{ formatDecimal(summaryData.totalCost) }}</div>
           </el-card>
         </el-col>
-        <el-col :span="6">
+        <el-col :xs="12" :sm="12" :md="6">
           <el-card shadow="hover" class="summary-card">
             <div class="summary-label">持仓盈亏</div>
             <div :class="['summary-value', summaryData.totalPnl >= 0 ? 'text-rise' : 'text-fall']">
@@ -23,7 +23,7 @@
             </div>
           </el-card>
         </el-col>
-        <el-col :span="6">
+        <el-col :xs="12" :sm="12" :md="6">
           <el-card shadow="hover" class="summary-card">
             <div class="summary-label">盈亏比例</div>
             <div :class="['summary-value', summaryData.totalPnlPct >= 0 ? 'text-rise' : 'text-fall']">
@@ -385,6 +385,7 @@ onMounted(() => {
 
 .table-card {
   border-radius: 8px;
+  overflow-x: auto;
 }
 
 .table-actions {
@@ -530,5 +531,25 @@ onMounted(() => {
   height: 300px;
   text-align: center;
   font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .summary-card {
+    margin-bottom: 12px;
+  }
+
+  .summary-value {
+    font-size: 16px;
+  }
+
+  .table-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .table-title {
+    font-size: 16px;
+  }
 }
 </style>

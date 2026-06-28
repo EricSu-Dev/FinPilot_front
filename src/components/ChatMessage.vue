@@ -190,6 +190,9 @@ const labelOf = (t) => t.label || TOOL_LABELS[t.tool] || t.tool || '工具'
   border-collapse: collapse;
   margin: 8px 0;
   font-size: 13px;
+  display: block;
+  overflow-x: auto;
+  max-width: 100%;
 }
 .markdown-body :deep(th),
 .markdown-body :deep(td) {
@@ -200,5 +203,34 @@ const labelOf = (t) => t.label || TOOL_LABELS[t.tool] || t.tool || '工具'
   border: none;
   border-top: 1px solid #93c5fd;
   margin: 10px 0;
+}
+
+@media (max-width: 768px) {
+  .chat-message {
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .avatar {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+
+  .bubble-wrap {
+    max-width: 88%;
+  }
+
+  .bubble {
+    padding: 10px 12px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .markdown-body :deep(h1) { font-size: 16px; }
+  .markdown-body :deep(h2) { font-size: 15px; }
+  .markdown-body :deep(h3) { font-size: 14px; }
+  .markdown-body :deep(ul),
+  .markdown-body :deep(ol) { padding-left: 16px; }
 }
 </style>

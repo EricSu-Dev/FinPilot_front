@@ -8,7 +8,15 @@
           <span class="logo-text">FinPilot</span>
           <span class="logo-subtext">AI金融分析平台</span>
         </div>
-        
+
+        <!-- Mobile hamburger menu button -->
+        <el-button
+          class="mobile-menu-btn"
+          @click="mobileMenuOpen = !mobileMenuOpen"
+        >
+          <el-icon :size="22"><Menu /></el-icon>
+        </el-button>
+
         <el-menu
           :default-active="activeMenu"
           mode="horizontal"
@@ -18,22 +26,31 @@
           active-text-color="#ffffff"
           router
           class="nav-menu"
+          :class="{ 'mobile-open': mobileMenuOpen }"
         >
-          <el-menu-item index="/">
+          <el-menu-item index="/" @click="mobileMenuOpen = false">
             <el-icon><ChatLineRound /></el-icon>
             <span>AI 助手</span>
           </el-menu-item>
-          <el-menu-item index="/diagnosis">
+          <el-menu-item index="/diagnosis" @click="mobileMenuOpen = false">
             <el-icon><Cpu /></el-icon>
             <span>股票/基金诊断</span>
           </el-menu-item>
-          <el-menu-item index="/portfolio">
+          <el-menu-item index="/portfolio" @click="mobileMenuOpen = false">
             <el-icon><Briefcase /></el-icon>
             <span>我的持仓</span>
           </el-menu-item>
+          <!-- Mobile-only user area inside menu -->
+          <div class="user-area mobile-user" v-if="username">
+            <div class="user-trigger" @click="profileVisible = true; mobileMenuOpen = false" title="点击修改用户名 / 密码">
+              <el-icon><User /></el-icon>
+              <span class="user-name">{{ username }}</span>
+            </div>
+            <el-button text size="small" @click="handleLogout">登出</el-button>
+          </div>
         </el-menu>
 
-        <div class="user-area" v-if="username">
+        <div class="user-area desktop-user" v-if="username">
           <div class="user-trigger" @click="profileVisible = true" title="点击修改用户名 / 密码">
             <el-icon><User /></el-icon>
             <span class="user-name">{{ username }}</span>
@@ -63,6 +80,7 @@ import { computed, ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getUser, clearAuth, setAuth } from './utils/auth'
 import ProfileDialog from './components/ProfileDialog.vue'
+import { TrendCharts, ChatLineRound, Cpu, Briefcase, User, Menu } from '@element-plus/icons-vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -70,6 +88,7 @@ const activeMenu = computed(() => route.path)
 
 const username = ref('')
 const profileVisible = ref(false)
+const mobileMenuOpen = ref(false)
 const refreshUser = () => {
   username.value = getUser()?.username || ''
 }
@@ -80,6 +99,7 @@ router.afterEach(refreshUser)
 const handleLogout = () => {
   clearAuth()
   username.value = ''
+  mobileMenuOpen.value = false
   router.push('/login')
 }
 
@@ -177,6 +197,27 @@ const handleProfileUpdated = (data) => {
   height: 60px;
 }
 
+.mobile-menu-btn {
+  display: none;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+  padding: 6px 10px;
+  transition: background 0.2s, border-color 0.2s;
+}
+.mobile-menu-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.mobile-user {
+  display: none;
+  padding: 12px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+}
+
 .nav-menu :deep(.el-menu-item) {
   height: 60px;
   line-height: 60px;
@@ -214,26 +255,62 @@ const handleProfileUpdated = (data) => {
 
 @media (max-width: 768px) {
   .header-container {
-    flex-direction: column;
+    flex-wrap: wrap;
     height: auto;
-    padding: 8px 16px;
+    padding: 8px 12px;
   }
-  
+
   .logo-area {
-    margin-bottom: 8px;
+    margin-bottom: 0;
+    flex: 1;
   }
-  
+
+  .logo-subtext {
+    display: none;
+  }
+
+  .mobile-menu-btn {
+    display: inline-flex;
+  }
+
+  .desktop-user {
+    display: none;
+  }
+
   .nav-menu {
+    display: none;
     width: 100%;
-    display: flex;
-    justify-content: space-around;
     height: auto;
+    flex-direction: column;
+    background-color: #9a1620;
   }
-  
+
+  .nav-menu.mobile-open {
+    display: flex;
+  }
+
   .nav-menu :deep(.el-menu-item) {
     height: 48px;
     line-height: 48px;
-    padding: 0 8px;
+    padding: 0 16px !important;
+    border-bottom: none;
+    border-left: 3px solid transparent;
+  }
+
+  .nav-menu :deep(.el-menu-item.is-active) {
+    border-bottom: none !important;
+    border-left: 3px solid #ffffff;
+    background-color: rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .mobile-user {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .mobile-user .user-trigger {
+    justify-content: flex-start;
   }
 }
 </style>

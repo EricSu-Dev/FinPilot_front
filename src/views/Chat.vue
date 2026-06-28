@@ -1,7 +1,17 @@
 <template>
   <div class="chat-layout">
+    <!-- Mobile sidebar toggle -->
+    <el-button
+      class="sidebar-toggle"
+      text
+      @click="sidebarVisible = !sidebarVisible"
+    >
+      <el-icon :size="20"><Expand v-if="!sidebarVisible" /><Fold v-else /></el-icon>
+      <span>会话</span>
+    </el-button>
+
     <!-- 会话侧边栏 -->
-    <aside class="conv-sidebar">
+    <aside class="conv-sidebar" :class="{ 'mobile-visible': sidebarVisible }">
       <div class="sidebar-top">
         <el-button class="new-conv-btn" @click="newConversation" :disabled="loading">
           <el-icon><Plus /></el-icon>
@@ -15,7 +25,7 @@
           :key="c.id"
           class="conv-item"
           :class="{ active: c.id === conversationId }"
-          @click="switchConversation(c.id)"
+          @click="switchConversation(c.id); sidebarVisible = false"
         >
           <el-icon class="conv-icon"><ChatLineRound /></el-icon>
           <span class="conv-title">{{ c.title || '新对话' }}</span>
@@ -24,6 +34,9 @@
         </div>
       </div>
     </aside>
+
+    <!-- Mobile sidebar overlay -->
+    <div v-if="sidebarVisible" class="sidebar-overlay" @click="sidebarVisible = false"></div>
 
     <div class="chat-page">
     <!-- 顶栏：标题 -->
@@ -151,7 +164,7 @@
 import { ref, reactive, nextTick, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import {
-  ChatLineRound, Plus, Briefcase, Search, Upload, Promotion, Delete, Edit, Document, TrendCharts,
+  ChatLineRound, Plus, Briefcase, Search, Upload, Promotion, Delete, Edit, Document, TrendCharts, Expand, Fold,
 } from '@element-plus/icons-vue'
 import ChatMessage from '../components/ChatMessage.vue'
 // 流式 SSE 在开发期绕开 Vite 代理直连后端：http-proxy 会把 SSE 响应缓冲到整批
@@ -179,6 +192,7 @@ const reportDialog = ref(false)
 const reportForm = ref({ name: '', code: '' })
 
 const uploadDialog = ref(false)
+const sidebarVisible = ref(false)
 
 const CONV_KEY = 'finpilot_conversation'
 
@@ -443,7 +457,18 @@ onMounted(async () => {
   height: calc(100vh - 60px);
   box-sizing: border-box;
   padding: 0 16px;
+  position: relative;
 }
+
+.sidebar-toggle {
+  display: none;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 10;
+  color: #64748b;
+}
+
 .conv-sidebar {
   width: 220px;
   flex-shrink: 0;
@@ -453,6 +478,11 @@ onMounted(async () => {
   flex-direction: column;
   padding: 12px 10px;
 }
+
+.sidebar-overlay {
+  display: none;
+}
+
 .sidebar-top {
   margin-bottom: 10px;
 }
@@ -646,5 +676,92 @@ onMounted(async () => {
   font-size: 12px;
   color: #94a3b8;
   line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .chat-layout {
+    padding: 0;
+    height: calc(100vh - 52px);
+  }
+
+  .sidebar-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .conv-sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 20;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    width: 240px;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .conv-sidebar.mobile-visible {
+    transform: translateX(0);
+  }
+
+  .sidebar-overlay {
+    display: block;
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 15;
+  }
+
+  .chat-page {
+    padding: 44px 12px 12px;
+  }
+
+  .chat-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .title-area {
+    flex-wrap: wrap;
+  }
+
+  .subtitle {
+    display: none;
+  }
+
+  .messages {
+    padding: 12px 4px;
+    margin: 8px 0;
+  }
+
+  .quick-actions {
+    gap: 6px;
+  }
+
+  .quick-actions .el-button {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  .input-area {
+    gap: 6px;
+  }
+
+  .input-box {
+    font-size: 16px; /* Prevent iOS zoom on focus */
+    padding: 8px 10px;
+  }
+
+  .send-btn {
+    height: 40px;
+    padding: 8px 14px;
+  }
+
+  .send-btn span {
+    display: none;
+  }
 }
 </style>
