@@ -1,0 +1,91 @@
+/* Global resets and broker-style design tokens */
+:root {
+  --nav-bg: #9a1620; /* Navbar Red */
+  --nav-text: #f8fafc;
+  --body-bg: #f1f5f9;
+  --card-bg: #ffffff;
+  --primary-color: #1e40af; /* Broker Blue */
+  --text-main: #334155;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  
+  /* A-Share Colors: Rise = Red, Fall = Green */
+  --color-rise: #dc2626; /* Darker Red */
+  --color-fall: #16a34a; /* Darker Green */
+  --color-flat: #64748b;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--body-bg);
+  color: var(--text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* App container utility */
+.app-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* Page Card Common Styling */
+.page-card {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.page-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Stock / Fund Rise & Fall text colors */
+.text-rise {
+  color: var(--color-rise) !important;
+  font-weight: bold;
+}
+
+.text-fall {
+  color: var(--color-fall) !important;
+  font-weight: bold;
+}
+
+.text-flat {
+  color: var(--color-flat) !important;
+}
+
+/* Scrollbars styling for rich look */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
